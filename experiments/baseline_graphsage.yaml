@@ -1,0 +1,14 @@
+experiment_name: baseline_graphsage
+
+dataset: cora
+model: graphsage
+dataset: cora
+
+hidden_dim: 64
+epochs: 200
+lr: 0.01
+weight_decay: 0.0005
+
+rewiring: none
+
+seed: 42

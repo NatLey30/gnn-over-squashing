@@ -1,0 +1,4 @@
+{
+    "experiment": "baseline_gcn",
+    "test_accuracy": 0.81
+}

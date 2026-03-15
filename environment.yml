@@ -1,0 +1,18 @@
+name: gnn-oversquashing
+channels:
+  - pytorch
+  - pyg
+  - conda-forge
+
+dependencies:
+  - python=3.10
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pyg
+  - numpy
+  - scikit-learn
+  - pyyaml
+  - tqdm
+  - networkx
+  - matplotlib

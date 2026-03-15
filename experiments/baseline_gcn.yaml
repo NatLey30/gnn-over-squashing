@@ -1,0 +1,15 @@
+experiment_name: baseline_gcn
+
+dataset: cora
+model: gcn
+dataset: cora
+
+hidden_dim: 64
+num_layers: 4
+epochs: 200
+lr: 0.01
+weight_decay: 0.0005
+
+rewiring: none
+
+seed: 42
