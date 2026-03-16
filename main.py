@@ -15,10 +15,10 @@ from src.models.graphsage import GraphSAGE
 from src.models.gat import GAT
 
 from src.rewiring.virtual_nodes import add_virtual_node
-from src.rewiring.curvature_rewiring import curvature_rewire
+from src.rewiring.ricci_curvature_rewiring import curvature_rewire
 
-from src.training.train import train
-from src.training.evaluate import evaluate
+from src.training.train import train_cora
+from src.training.evaluate import evaluate_cora
 
 
 def load_dataset(config, logger):
@@ -114,7 +114,7 @@ def main(config_path):
 
     logger.info("Starting training")
 
-    history = train(
+    history = train_cora(
         model,
         data,
         optimizer,
@@ -131,7 +131,7 @@ def main(config_path):
 
     logger.info("Evaluating model")
 
-    acc = evaluate(model, data)
+    acc = evaluate_cora(model, data)
 
     results = {
         "experiment": config["experiment_name"],

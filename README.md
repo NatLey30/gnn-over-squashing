@@ -18,3 +18,4 @@ Cora citation network
 ## Reproducing results
 
 python main.py experiments/baseline_gcn.yaml
+python main.py experiments/rewiring_curvature_gcn.yaml
