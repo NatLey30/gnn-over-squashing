@@ -1,4 +1,4 @@
-experiment_name: baseline_graphsage
+experiment_name: gcn_curvature_rewiring
 
 model: graphsage
 dataset: cora
@@ -9,6 +9,6 @@ epochs: 200
 lr: 0.01
 weight_decay: 0.0005
 
-rewiring: none
+rewiring: curvature
 
 seed: 42

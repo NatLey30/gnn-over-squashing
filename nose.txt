@@ -1,0 +1,407 @@
+=======================================
+Running baseline_gcn with 2 layers on cora
+=======================================
+
+2026-03-16 21:07:34,928 | INFO | Loading experiment config: temp_configs/baseline_gcn_cora.yaml
+2026-03-16 21:07:34,929 | INFO | Using device: cuda
+2026-03-16 21:07:34,930 | INFO | Loading dataset: Cora
+2026-03-16 21:07:35,016 | INFO | No rewiring applied
+2026-03-16 21:07:35,261 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:02<00:00, 98.69it/s]
+2026-03-16 21:07:37,288 | INFO | Evaluating model
+2026-03-16 21:07:37,291 | INFO | Saving training plots
+2026-03-16 21:07:37,412 | INFO | Saving experiment results
+2026-03-16 21:07:37,412 | INFO | Plot saved to: results/plots/cora/2layers/baseline_gcn.png
+2026-03-16 21:07:37,412 | INFO | Results saved to: results/tables/cora/2layers/baseline_gcn.json
+2026-03-16 21:07:37,412 | INFO | test_accuracy: 0.8100
+
+=======================================
+Running baseline_gcn with 4 layers on cora
+=======================================
+
+2026-03-16 21:07:40,036 | INFO | Loading experiment config: temp_configs/baseline_gcn_cora.yaml
+2026-03-16 21:07:40,038 | INFO | Using device: cuda
+2026-03-16 21:07:40,038 | INFO | Loading dataset: Cora
+2026-03-16 21:07:40,117 | INFO | No rewiring applied
+2026-03-16 21:07:40,323 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:02<00:00, 78.32it/s]
+2026-03-16 21:07:42,878 | INFO | Evaluating model
+2026-03-16 21:07:42,887 | INFO | Saving training plots
+2026-03-16 21:07:43,007 | INFO | Saving experiment results
+2026-03-16 21:07:43,008 | INFO | Plot saved to: results/plots/cora/4layers/baseline_gcn.png
+2026-03-16 21:07:43,008 | INFO | Results saved to: results/tables/cora/4layers/baseline_gcn.json
+2026-03-16 21:07:43,008 | INFO | test_accuracy: 0.7820
+
+=======================================
+Running baseline_gcn with 6 layers on cora
+=======================================
+
+2026-03-16 21:07:45,744 | INFO | Loading experiment config: temp_configs/baseline_gcn_cora.yaml
+2026-03-16 21:07:45,745 | INFO | Using device: cuda
+2026-03-16 21:07:45,745 | INFO | Loading dataset: Cora
+2026-03-16 21:07:45,825 | INFO | No rewiring applied
+2026-03-16 21:07:46,040 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:03<00:00, 63.77it/s]
+2026-03-16 21:07:49,178 | INFO | Evaluating model
+2026-03-16 21:07:49,184 | INFO | Saving training plots
+2026-03-16 21:07:49,300 | INFO | Saving experiment results
+2026-03-16 21:07:49,300 | INFO | Plot saved to: results/plots/cora/6layers/baseline_gcn.png
+2026-03-16 21:07:49,300 | INFO | Results saved to: results/tables/cora/6layers/baseline_gcn.json
+2026-03-16 21:07:49,300 | INFO | test_accuracy: 0.5780
+
+=======================================
+Running baseline_gcn with 8 layers on cora
+=======================================
+
+2026-03-16 21:07:52,079 | INFO | Loading experiment config: temp_configs/baseline_gcn_cora.yaml
+2026-03-16 21:07:52,080 | INFO | Using device: cuda
+2026-03-16 21:07:52,080 | INFO | Loading dataset: Cora
+2026-03-16 21:07:52,184 | INFO | No rewiring applied
+2026-03-16 21:07:52,410 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:03<00:00, 52.14it/s]
+2026-03-16 21:07:56,248 | INFO | Evaluating model
+2026-03-16 21:07:56,256 | INFO | Saving training plots
+2026-03-16 21:07:56,381 | INFO | Saving experiment results
+2026-03-16 21:07:56,382 | INFO | Plot saved to: results/plots/cora/8layers/baseline_gcn.png
+2026-03-16 21:07:56,382 | INFO | Results saved to: results/tables/cora/8layers/baseline_gcn.json
+2026-03-16 21:07:56,382 | INFO | test_accuracy: 0.2750
+
+=======================================
+Running baseline_gcn with 2 layers on enzymes
+=======================================
+
+2026-03-16 21:07:59,059 | INFO | Loading experiment config: temp_configs/baseline_gcn_enzymes.yaml
+2026-03-16 21:07:59,060 | INFO | Using device: cuda
+2026-03-16 21:07:59,060 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:07:59,064 | INFO | No rewiring applied
+2026-03-16 21:07:59,279 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:44<00:00,  8.97it/s]
+2026-03-16 21:08:43,853 | INFO | Evaluating model
+2026-03-16 21:08:43,890 | INFO | Saving training plots
+2026-03-16 21:08:44,019 | INFO | Saving experiment results
+2026-03-16 21:08:44,019 | INFO | Plot saved to: results/plots/enzymes/2layers/baseline_gcn.png
+2026-03-16 21:08:44,019 | INFO | Results saved to: results/tables/enzymes/2layers/baseline_gcn.json
+2026-03-16 21:08:44,019 | INFO | test_accuracy: 0.2250
+
+=======================================
+Running baseline_gcn with 4 layers on enzymes
+=======================================
+
+2026-03-16 21:08:46,763 | INFO | Loading experiment config: temp_configs/baseline_gcn_enzymes.yaml
+2026-03-16 21:08:46,765 | INFO | Using device: cuda
+2026-03-16 21:08:46,765 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:08:46,769 | INFO | No rewiring applied
+2026-03-16 21:08:46,968 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:58<00:00,  6.83it/s]
+2026-03-16 21:09:45,523 | INFO | Evaluating model
+2026-03-16 21:09:45,558 | INFO | Saving training plots
+2026-03-16 21:09:45,676 | INFO | Saving experiment results
+2026-03-16 21:09:45,676 | INFO | Plot saved to: results/plots/enzymes/4layers/baseline_gcn.png
+2026-03-16 21:09:45,676 | INFO | Results saved to: results/tables/enzymes/4layers/baseline_gcn.json
+2026-03-16 21:09:45,676 | INFO | test_accuracy: 0.3500
+
+=======================================
+Running baseline_gcn with 6 layers on enzymes
+=======================================
+
+2026-03-16 21:09:48,330 | INFO | Loading experiment config: temp_configs/baseline_gcn_enzymes.yaml
+2026-03-16 21:09:48,331 | INFO | Using device: cuda
+2026-03-16 21:09:48,331 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:09:48,335 | INFO | No rewiring applied
+2026-03-16 21:09:48,538 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [01:20<00:00,  4.95it/s]
+2026-03-16 21:11:09,422 | INFO | Evaluating model
+2026-03-16 21:11:09,463 | INFO | Saving training plots
+2026-03-16 21:11:09,587 | INFO | Saving experiment results
+2026-03-16 21:11:09,588 | INFO | Plot saved to: results/plots/enzymes/6layers/baseline_gcn.png
+2026-03-16 21:11:09,588 | INFO | Results saved to: results/tables/enzymes/6layers/baseline_gcn.json
+2026-03-16 21:11:09,588 | INFO | test_accuracy: 0.1333
+
+=======================================
+Running baseline_gcn with 8 layers on enzymes
+=======================================
+
+2026-03-16 21:11:12,302 | INFO | Loading experiment config: temp_configs/baseline_gcn_enzymes.yaml
+2026-03-16 21:11:12,303 | INFO | Using device: cuda
+2026-03-16 21:11:12,303 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:11:12,308 | INFO | No rewiring applied
+2026-03-16 21:11:12,499 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [01:44<00:00,  3.84it/s]
+2026-03-16 21:12:56,762 | INFO | Evaluating model
+2026-03-16 21:12:56,816 | INFO | Saving training plots
+2026-03-16 21:12:56,954 | INFO | Saving experiment results
+2026-03-16 21:12:56,955 | INFO | Plot saved to: results/plots/enzymes/8layers/baseline_gcn.png
+2026-03-16 21:12:56,955 | INFO | Results saved to: results/tables/enzymes/8layers/baseline_gcn.json
+2026-03-16 21:12:56,955 | INFO | test_accuracy: 0.1333
+
+=======================================
+Running baseline_graphsage with 2 layers on cora
+=======================================
+
+2026-03-16 21:12:59,691 | INFO | Loading experiment config: temp_configs/baseline_graphsage_cora.yaml
+2026-03-16 21:12:59,693 | INFO | Using device: cuda
+2026-03-16 21:12:59,693 | INFO | Loading dataset: Cora
+2026-03-16 21:12:59,770 | INFO | No rewiring applied
+2026-03-16 21:13:00,000 | INFO | Starting training
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:01<00:00, 124.33it/s]
+2026-03-16 21:13:01,610 | INFO | Evaluating model
+2026-03-16 21:13:01,613 | INFO | Saving training plots
+2026-03-16 21:13:01,734 | INFO | Saving experiment results
+2026-03-16 21:13:01,734 | INFO | Plot saved to: results/plots/cora/2layers/baseline_graphsage.png
+2026-03-16 21:13:01,734 | INFO | Results saved to: results/tables/cora/2layers/baseline_graphsage.json
+2026-03-16 21:13:01,734 | INFO | test_accuracy: 0.7870
+
+=======================================
+Running baseline_graphsage with 4 layers on cora
+=======================================
+
+2026-03-16 21:13:04,450 | INFO | Loading experiment config: temp_configs/baseline_graphsage_cora.yaml
+2026-03-16 21:13:04,451 | INFO | Using device: cuda
+2026-03-16 21:13:04,451 | INFO | Loading dataset: Cora
+2026-03-16 21:13:04,550 | INFO | No rewiring applied
+2026-03-16 21:13:04,749 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:02<00:00, 91.00it/s]
+2026-03-16 21:13:06,948 | INFO | Evaluating model
+2026-03-16 21:13:06,956 | INFO | Saving training plots
+2026-03-16 21:13:07,077 | INFO | Saving experiment results
+2026-03-16 21:13:07,077 | INFO | Plot saved to: results/plots/cora/4layers/baseline_graphsage.png
+2026-03-16 21:13:07,077 | INFO | Results saved to: results/tables/cora/4layers/baseline_graphsage.json
+2026-03-16 21:13:07,077 | INFO | test_accuracy: 0.7500
+
+=======================================
+Running baseline_graphsage with 6 layers on cora
+=======================================
+
+2026-03-16 21:13:09,682 | INFO | Loading experiment config: temp_configs/baseline_graphsage_cora.yaml
+2026-03-16 21:13:09,683 | INFO | Using device: cuda
+2026-03-16 21:13:09,683 | INFO | Loading dataset: Cora
+2026-03-16 21:13:09,773 | INFO | No rewiring applied
+2026-03-16 21:13:09,987 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:02<00:00, 70.75it/s]
+2026-03-16 21:13:12,815 | INFO | Evaluating model
+2026-03-16 21:13:12,821 | INFO | Saving training plots
+2026-03-16 21:13:12,940 | INFO | Saving experiment results
+2026-03-16 21:13:12,940 | INFO | Plot saved to: results/plots/cora/6layers/baseline_graphsage.png
+2026-03-16 21:13:12,940 | INFO | Results saved to: results/tables/cora/6layers/baseline_graphsage.json
+2026-03-16 21:13:12,941 | INFO | test_accuracy: 0.5350
+
+=======================================
+Running baseline_graphsage with 8 layers on cora
+=======================================
+
+2026-03-16 21:13:15,706 | INFO | Loading experiment config: temp_configs/baseline_graphsage_cora.yaml
+2026-03-16 21:13:15,708 | INFO | Using device: cuda
+2026-03-16 21:13:15,708 | INFO | Loading dataset: Cora
+2026-03-16 21:13:15,782 | INFO | No rewiring applied
+2026-03-16 21:13:15,989 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:03<00:00, 56.51it/s]
+2026-03-16 21:13:19,529 | INFO | Evaluating model
+2026-03-16 21:13:19,540 | INFO | Saving training plots
+2026-03-16 21:13:19,659 | INFO | Saving experiment results
+2026-03-16 21:13:19,659 | INFO | Plot saved to: results/plots/cora/8layers/baseline_graphsage.png
+2026-03-16 21:13:19,659 | INFO | Results saved to: results/tables/cora/8layers/baseline_graphsage.json
+2026-03-16 21:13:19,659 | INFO | test_accuracy: 0.1030
+
+=======================================
+Running baseline_graphsage with 2 layers on enzymes
+=======================================
+
+2026-03-16 21:13:22,316 | INFO | Loading experiment config: temp_configs/baseline_graphsage_enzymes.yaml
+2026-03-16 21:13:22,318 | INFO | Using device: cuda
+2026-03-16 21:13:22,318 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:13:22,324 | INFO | No rewiring applied
+2026-03-16 21:13:22,511 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:37<00:00, 10.71it/s]
+2026-03-16 21:13:59,866 | INFO | Evaluating model
+2026-03-16 21:13:59,883 | INFO | Saving training plots
+2026-03-16 21:14:00,006 | INFO | Saving experiment results
+2026-03-16 21:14:00,006 | INFO | Plot saved to: results/plots/enzymes/2layers/baseline_graphsage.png
+2026-03-16 21:14:00,006 | INFO | Results saved to: results/tables/enzymes/2layers/baseline_graphsage.json
+2026-03-16 21:14:00,006 | INFO | test_accuracy: 0.2750
+
+=======================================
+Running baseline_graphsage with 4 layers on enzymes
+=======================================
+
+2026-03-16 21:14:02,650 | INFO | Loading experiment config: temp_configs/baseline_graphsage_enzymes.yaml
+2026-03-16 21:14:02,651 | INFO | Using device: cuda
+2026-03-16 21:14:02,651 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:14:02,656 | INFO | No rewiring applied
+2026-03-16 21:14:02,878 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [00:50<00:00,  7.86it/s]
+2026-03-16 21:14:53,773 | INFO | Evaluating model
+2026-03-16 21:14:53,799 | INFO | Saving training plots
+2026-03-16 21:14:53,913 | INFO | Saving experiment results
+2026-03-16 21:14:53,914 | INFO | Plot saved to: results/plots/enzymes/4layers/baseline_graphsage.png
+2026-03-16 21:14:53,914 | INFO | Results saved to: results/tables/enzymes/4layers/baseline_graphsage.json
+2026-03-16 21:14:53,914 | INFO | test_accuracy: 0.4417
+
+=======================================
+Running baseline_graphsage with 6 layers on enzymes
+=======================================
+
+2026-03-16 21:14:56,607 | INFO | Loading experiment config: temp_configs/baseline_graphsage_enzymes.yaml
+2026-03-16 21:14:56,608 | INFO | Using device: cuda
+2026-03-16 21:14:56,608 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:14:56,613 | INFO | No rewiring applied
+2026-03-16 21:14:56,811 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [01:06<00:00,  6.06it/s]
+2026-03-16 21:16:02,847 | INFO | Evaluating model
+2026-03-16 21:16:02,901 | INFO | Saving training plots
+2026-03-16 21:16:03,020 | INFO | Saving experiment results
+2026-03-16 21:16:03,020 | INFO | Plot saved to: results/plots/enzymes/6layers/baseline_graphsage.png
+2026-03-16 21:16:03,020 | INFO | Results saved to: results/tables/enzymes/6layers/baseline_graphsage.json
+2026-03-16 21:16:03,020 | INFO | test_accuracy: 0.1333
+
+=======================================
+Running baseline_graphsage with 8 layers on enzymes
+=======================================
+
+2026-03-16 21:16:05,657 | INFO | Loading experiment config: temp_configs/baseline_graphsage_enzymes.yaml
+2026-03-16 21:16:05,659 | INFO | Using device: cuda
+2026-03-16 21:16:05,659 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:16:05,663 | INFO | No rewiring applied
+2026-03-16 21:16:05,858 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [01:23<00:00,  4.78it/s]
+2026-03-16 21:17:29,598 | INFO | Evaluating model
+2026-03-16 21:17:29,654 | INFO | Saving training plots
+2026-03-16 21:17:29,774 | INFO | Saving experiment results
+2026-03-16 21:17:29,775 | INFO | Plot saved to: results/plots/enzymes/8layers/baseline_graphsage.png
+2026-03-16 21:17:29,775 | INFO | Results saved to: results/tables/enzymes/8layers/baseline_graphsage.json
+2026-03-16 21:17:29,775 | INFO | test_accuracy: 0.1333
+
+=======================================
+Running baseline_gat with 2 layers on cora
+=======================================
+
+2026-03-16 21:17:32,353 | INFO | Loading experiment config: temp_configs/baseline_gat_cora.yaml
+2026-03-16 21:17:32,355 | INFO | Using device: cuda
+2026-03-16 21:17:32,355 | INFO | Loading dataset: Cora
+2026-03-16 21:17:32,471 | INFO | No rewiring applied
+2026-03-16 21:17:32,731 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:02<00:00, 71.34it/s]
+2026-03-16 21:17:35,536 | INFO | Evaluating model
+2026-03-16 21:17:35,540 | INFO | Saving training plots
+2026-03-16 21:17:35,667 | INFO | Saving experiment results
+2026-03-16 21:17:35,667 | INFO | Plot saved to: results/plots/cora/2layers/baseline_gat.png
+2026-03-16 21:17:35,667 | INFO | Results saved to: results/tables/cora/2layers/baseline_gat.json
+2026-03-16 21:17:35,667 | INFO | test_accuracy: 0.6070
+
+=======================================
+Running baseline_gat with 4 layers on cora
+=======================================
+
+2026-03-16 21:17:38,347 | INFO | Loading experiment config: temp_configs/baseline_gat_cora.yaml
+2026-03-16 21:17:38,348 | INFO | Using device: cuda
+2026-03-16 21:17:38,348 | INFO | Loading dataset: Cora
+2026-03-16 21:17:38,438 | INFO | No rewiring applied
+2026-03-16 21:17:38,680 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:04<00:00, 41.85it/s]
+2026-03-16 21:17:43,460 | INFO | Evaluating model
+2026-03-16 21:17:43,468 | INFO | Saving training plots
+2026-03-16 21:17:43,590 | INFO | Saving experiment results
+2026-03-16 21:17:43,590 | INFO | Plot saved to: results/plots/cora/4layers/baseline_gat.png
+2026-03-16 21:17:43,590 | INFO | Results saved to: results/tables/cora/4layers/baseline_gat.json
+2026-03-16 21:17:43,590 | INFO | test_accuracy: 0.7640
+
+=======================================
+Running baseline_gat with 6 layers on cora
+=======================================
+
+2026-03-16 21:17:46,322 | INFO | Loading experiment config: temp_configs/baseline_gat_cora.yaml
+2026-03-16 21:17:46,324 | INFO | Using device: cuda
+2026-03-16 21:17:46,324 | INFO | Loading dataset: Cora
+2026-03-16 21:17:46,397 | INFO | No rewiring applied
+2026-03-16 21:17:46,644 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:06<00:00, 29.96it/s]
+2026-03-16 21:17:53,322 | INFO | Evaluating model
+2026-03-16 21:17:53,337 | INFO | Saving training plots
+2026-03-16 21:17:53,453 | INFO | Saving experiment results
+2026-03-16 21:17:53,453 | INFO | Plot saved to: results/plots/cora/6layers/baseline_gat.png
+2026-03-16 21:17:53,453 | INFO | Results saved to: results/tables/cora/6layers/baseline_gat.json
+2026-03-16 21:17:53,453 | INFO | test_accuracy: 0.7350
+
+=======================================
+Running baseline_gat with 8 layers on cora
+=======================================
+
+2026-03-16 21:17:56,196 | INFO | Loading experiment config: temp_configs/baseline_gat_cora.yaml
+2026-03-16 21:17:56,197 | INFO | Using device: cuda
+2026-03-16 21:17:56,197 | INFO | Loading dataset: Cora
+2026-03-16 21:17:56,280 | INFO | No rewiring applied
+2026-03-16 21:17:56,530 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:08<00:00, 22.81it/s]
+2026-03-16 21:18:05,301 | INFO | Evaluating model
+2026-03-16 21:18:05,323 | INFO | Saving training plots
+2026-03-16 21:18:05,438 | INFO | Saving experiment results
+2026-03-16 21:18:05,438 | INFO | Plot saved to: results/plots/cora/8layers/baseline_gat.png
+2026-03-16 21:18:05,439 | INFO | Results saved to: results/tables/cora/8layers/baseline_gat.json
+2026-03-16 21:18:05,439 | INFO | test_accuracy: 0.6780
+
+=======================================
+Running baseline_gat with 2 layers on enzymes
+=======================================
+
+2026-03-16 21:18:08,147 | INFO | Loading experiment config: temp_configs/baseline_gat_enzymes.yaml
+2026-03-16 21:18:08,148 | INFO | Using device: cuda
+2026-03-16 21:18:08,148 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:18:08,156 | INFO | No rewiring applied
+2026-03-16 21:18:08,371 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [01:00<00:00,  6.60it/s]
+2026-03-16 21:19:08,988 | INFO | Evaluating model
+2026-03-16 21:19:09,013 | INFO | Saving training plots
+2026-03-16 21:19:09,133 | INFO | Saving experiment results
+2026-03-16 21:19:09,133 | INFO | Plot saved to: results/plots/enzymes/2layers/baseline_gat.png
+2026-03-16 21:19:09,133 | INFO | Results saved to: results/tables/enzymes/2layers/baseline_gat.json
+2026-03-16 21:19:09,133 | INFO | test_accuracy: 0.3000
+
+=======================================
+Running baseline_gat with 4 layers on enzymes
+=======================================
+
+2026-03-16 21:19:11,725 | INFO | Loading experiment config: temp_configs/baseline_gat_enzymes.yaml
+2026-03-16 21:19:11,727 | INFO | Using device: cuda
+2026-03-16 21:19:11,727 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:19:11,731 | INFO | No rewiring applied
+2026-03-16 21:19:11,943 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [01:46<00:00,  3.74it/s]
+2026-03-16 21:20:58,792 | INFO | Evaluating model
+2026-03-16 21:20:58,841 | INFO | Saving training plots
+2026-03-16 21:20:58,966 | INFO | Saving experiment results
+2026-03-16 21:20:58,966 | INFO | Plot saved to: results/plots/enzymes/4layers/baseline_gat.png
+2026-03-16 21:20:58,966 | INFO | Results saved to: results/tables/enzymes/4layers/baseline_gat.json
+2026-03-16 21:20:58,966 | INFO | test_accuracy: 0.1917
+
+=======================================
+Running baseline_gat with 6 layers on enzymes
+=======================================
+
+2026-03-16 21:21:01,647 | INFO | Loading experiment config: temp_configs/baseline_gat_enzymes.yaml
+2026-03-16 21:21:01,648 | INFO | Using device: cuda
+2026-03-16 21:21:01,648 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:21:01,654 | INFO | No rewiring applied
+2026-03-16 21:21:01,889 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [02:29<00:00,  2.68it/s]
+2026-03-16 21:23:31,377 | INFO | Evaluating model
+2026-03-16 21:23:31,431 | INFO | Saving training plots
+2026-03-16 21:23:31,556 | INFO | Saving experiment results
+2026-03-16 21:23:31,557 | INFO | Plot saved to: results/plots/enzymes/6layers/baseline_gat.png
+2026-03-16 21:23:31,557 | INFO | Results saved to: results/tables/enzymes/6layers/baseline_gat.json
+2026-03-16 21:23:31,557 | INFO | test_accuracy: 0.1500
+
+=======================================
+Running baseline_gat with 8 layers on enzymes
+=======================================
+
+2026-03-16 21:23:34,126 | INFO | Loading experiment config: temp_configs/baseline_gat_enzymes.yaml
+2026-03-16 21:23:34,128 | INFO | Using device: cuda
+2026-03-16 21:23:34,128 | INFO | Loading dataset: ENZYMES
+2026-03-16 21:23:34,132 | INFO | No rewiring applied
+2026-03-16 21:23:34,389 | INFO | Starting training
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [03:12<00:00,  2.07it/s]
+2026-03-16 21:26:47,390 | INFO | Evaluating model
+2026-03-16 21:26:47,457 | INFO | Saving training plots
+2026-03-16 21:26:47,588 | INFO | Saving experiment results
+2026-03-16 21:26:47,588 | INFO | Plot saved to: results/plots/enzymes/8layers/baseline_gat.png
+2026-03-16 21:26:47,588 | INFO | Results saved to: results/tables/enzymes/8layers/baseline_gat.json
+2026-03-16 21:26:47,588 | INFO | test_accuracy: 0.2000

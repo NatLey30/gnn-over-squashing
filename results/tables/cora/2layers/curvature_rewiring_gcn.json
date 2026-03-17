@@ -1,0 +1,13 @@
+{
+    "experiment": "curvature_rewiring_gcn",
+    "dataset": "cora",
+    "model": "gcn",
+    "rewiring": "curvature",
+    "num_layers": 2,
+    "hidden_dim": 64,
+    "lr": 0.01,
+    "weight_decay": 0.0005,
+    "epochs": 200,
+    "seed": 42,
+    "test_accuracy": 0.811
+}

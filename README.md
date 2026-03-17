@@ -18,4 +18,13 @@ Cora citation network
 ## Reproducing results
 
 python main.py experiments/baseline_gcn.yaml
+python main.py experiments/baseline_graphsage.yaml
+python main.py experiments/baseline_gat.yaml
+
+python main.py experiments/virtual_node_gcn.yaml
+python main.py experiments/virtual_node_graphsage.yaml
+python main.py experiments/virtual_node_gat.yaml
+
 python main.py experiments/rewiring_curvature_gcn.yaml
+python main.py experiments/rewiring_curvature_graphsage.yaml
+python main.py experiments/rewiring_curvature_gat.yaml

@@ -1,6 +1,5 @@
 experiment_name: gcn_virtual_nodes
 
-dataset: cora
 model: gcn
 dataset: cora
 

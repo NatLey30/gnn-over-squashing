@@ -1,0 +1,14 @@
+{
+    "experiment": "baseline_gcn",
+    "dataset": "cora",
+    "model": "gcn",
+    "rewiring": "none",
+    "num_layers": 2,
+    "hidden_dim": 64,
+    "lr": 0.01,
+    "weight_decay": 0.0005,
+    "epochs": 200,
+    "seed": 42,
+    "batch_size": 32,
+    "test_accuracy": 0.81
+}

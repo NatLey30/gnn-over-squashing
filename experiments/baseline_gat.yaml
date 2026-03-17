@@ -1,14 +1,14 @@
 experiment_name: baseline_gat
 
-dataset: cora
 model: gat
 dataset: cora
 
 hidden_dim: 64
-num_layers: 4
+num_layers: 8
 epochs: 200
 lr: 0.005
 weight_decay: 0.0005
+batch_size: 32
 
 rewiring: none
 

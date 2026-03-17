@@ -1,152 +1,201 @@
+from typing import Dict, Any
 import sys
-import torch
-import json
 import os
+import json
+import torch
 
 from src.config import load_config
 from src.utils.seed import set_seed
 from src.utils.logging import get_logger
 from src.utils.plotting import plot_training
 
-from src.data import load_cora, load_enzymes
-
-from src.models.gcn import GCN
-from src.models.graphsage import GraphSAGE
-from src.models.gat import GAT
-
-from src.rewiring.virtual_nodes import add_virtual_node
-from src.rewiring.ricci_curvature_rewiring import curvature_rewire
-
-from src.training.train import train_cora
-from src.training.evaluate import evaluate_cora
+from src.experiments.cora import run_experiment as run_cora
+from src.experiments.enzymes import run_experiment as run_enzymes
 
 
-def load_dataset(config, logger):
+def get_layers_dir(config: Dict[str, Any]) -> str:
+    """
+    Build the directory name corresponding to the number of GNN layers.
 
-    dataset_name = config.get("dataset", "cora").lower()
+    Parameters
+    ----------
+    config : dict
+        Experiment configuration.
+
+    Returns
+    -------
+    str
+        Directory name (e.g. "2layers", "4layers").
+    """
+    return f"{config['num_layers']}layers"
+
+
+def save_results_json(
+    config: Dict[str, Any],
+    dataset_name: str,
+    metrics: Dict[str, float]
+) -> str:
+    """
+    Save experiment results and configuration to a JSON file.
+
+    Parameters
+    ----------
+    config : dict
+        Experiment configuration.
+    dataset_name : str
+        Name of the dataset used.
+    metrics : dict
+        Evaluation metrics.
+
+    Returns
+    -------
+    str
+        Path to the saved JSON file.
+    """
+
+    layers_dir = get_layers_dir(config)
+
+    table_dir = os.path.join("results", "tables", dataset_name, layers_dir)
+    os.makedirs(table_dir, exist_ok=True)
+
+    table_path = os.path.join(table_dir, f"{config['experiment_name']}.json")
+
+    results = {
+        "experiment": config["experiment_name"],
+        "dataset": dataset_name,
+        "model": config["model"],
+        "rewiring": config.get("rewiring", "none"),
+        "num_layers": config["num_layers"],
+        "hidden_dim": config["hidden_dim"],
+        "lr": config["lr"],
+        "weight_decay": config["weight_decay"],
+        "epochs": config["epochs"],
+        "seed": config["seed"],
+        "batch_size": config.get("batch_size", 32),
+        **metrics,
+    }
+
+    with open(table_path, "w") as f:
+        json.dump(results, f, indent=4)
+
+    return table_path
+
+
+def save_plot(
+    config: Dict[str, Any],
+    dataset_name: str,
+    history: Dict[str, list]
+) -> str:
+    """
+    Save training curves plot.
+
+    Parameters
+    ----------
+    config : dict
+        Experiment configuration.
+    dataset_name : str
+        Dataset name.
+    history : dict
+        Training history containing metrics such as loss/accuracy.
+
+    Returns
+    -------
+    str
+        Path to the saved plot.
+    """
+
+    layers_dir = get_layers_dir(config)
+
+    plot_dir = os.path.join("results", "plots", dataset_name, layers_dir)
+    os.makedirs(plot_dir, exist_ok=True)
+
+    plot_path = os.path.join(plot_dir, f"{config['experiment_name']}.png")
+
+    plot_training(history, plot_path)
+
+    return plot_path
+
+
+def run_dataset_experiment(
+    dataset_name: str,
+    config: Dict[str, Any],
+    logger,
+    device: torch.device
+):
+    """
+    Dispatch the experiment to the correct dataset pipeline.
+
+    Parameters
+    ----------
+    dataset_name : str
+        Name of the dataset.
+    config : dict
+        Experiment configuration.
+    logger : Logger
+        Logger instance.
+    device : torch.device
+        Device used for training.
+
+    Returns
+    -------
+    Tuple[dict, dict]
+        Training history and evaluation metrics.
+    """
 
     if dataset_name == "cora":
-        logger.info("Loading dataset: Cora")
-        data, in_dim, num_classes = load_cora()
-        return dataset_name, data, in_dim, num_classes
+        return run_cora(config, logger, device)
 
-    elif dataset_name == "enzymes":
-        logger.info("Loading dataset: ENZYMES")
-        dataset, in_dim, num_classes = load_enzymes()
+    if dataset_name == "enzymes":
+        return run_enzymes(config, logger, device)
 
-        # For simplicity use the first graph
-        # (later you may want batching)
-        data = dataset[0]
-
-        return dataset_name, data, in_dim, num_classes
-
-    else:
-        raise ValueError(f"Unknown dataset: {dataset_name}")
+    raise ValueError(f"Unsupported dataset: {dataset_name}")
 
 
-def build_model(config, in_dim, num_classes):
+def main(config_path: str) -> None:
+    """
+    Main execution function.
 
-    hidden = config["hidden_dim"]
-    num_layers = config["num_layers"]
-    model_name = config["model"].lower()
-
-    if model_name == "gcn":
-        model = GCN(in_dim, hidden, num_classes, num_layers)
-
-    elif model_name == "graphsage":
-        model = GraphSAGE(in_dim, hidden, num_classes, num_layers)
-
-    elif model_name == "gat":
-        model = GAT(in_dim, hidden, num_classes, num_layers)
-
-    else:
-        raise ValueError(f"Unknown model: {model_name}")
-
-    return model
-
-
-def apply_rewiring(config, data, logger):
-
-    rewiring = config.get("rewiring", "none")
-
-    if rewiring == "none":
-        logger.info("No rewiring applied")
-
-    elif rewiring == "virtual_nodes":
-        logger.info("Applying virtual node rewiring")
-        data = add_virtual_node(data)
-
-    elif rewiring == "curvature":
-        logger.info("Applying curvature rewiring")
-        data = curvature_rewire(data)
-
-    else:
-        raise ValueError(f"Unknown rewiring method: {rewiring}")
-
-    return data
-
-
-def main(config_path):
+    Parameters
+    ----------
+    config_path : str
+        Path to the experiment configuration YAML file.
+    """
 
     logger = get_logger()
-
     logger.info(f"Loading experiment config: {config_path}")
 
-    config = load_config(config_path)
+    config: Dict[str, Any] = load_config(config_path)
 
     set_seed(config["seed"])
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logger.info(f"Using device: {device}")
 
-    dataset_name, data, in_dim, num_classes = load_dataset(config, logger)
-    data = apply_rewiring(config, data, logger)
-    data = data.to(device)
+    dataset_name = config.get("dataset", "cora").lower()
 
-    model = build_model(config, in_dim, num_classes)
-    model = model.to(device)
-
-    optimizer = torch.optim.Adam(
-        model.parameters(),
-        lr=config["lr"],
-        weight_decay=config["weight_decay"]
+    history, metrics = run_dataset_experiment(
+        dataset_name,
+        config,
+        logger,
+        device
     )
 
-    logger.info("Starting training")
+    logger.info("Saving training plots")
 
-    history = train_cora(
-        model,
-        data,
-        optimizer,
-        epochs=config["epochs"]
-    )
+    plot_path = save_plot(config, dataset_name, history)
 
-    logger.info("Plotting")
+    logger.info("Saving experiment results")
 
-    plot_dir = f"results/plots/{dataset_name}"
-    os.makedirs(plot_dir, exist_ok=True)
+    table_path = save_results_json(config, dataset_name, metrics)
 
-    plot_path = f"{plot_dir}/{config['experiment_name']}.png"
-    plot_training(history, plot_path)
+    logger.info(f"Plot saved to: {plot_path}")
+    logger.info(f"Results saved to: {table_path}")
 
-    logger.info("Evaluating model")
-
-    acc = evaluate_cora(model, data)
-
-    results = {
-        "experiment": config["experiment_name"],
-        "test_accuracy": acc
-    }
-
-    table_dir = f"results/tables/{dataset_name}"
-    os.makedirs(table_dir, exist_ok=True)
-
-    table_path = f"{table_dir}/{config['experiment_name']}.json"
-
-    with open(table_path, "w") as f:
-        json.dump(results, f, indent=4)
-
-    logger.info(f"Test accuracy: {acc:.4f}")
+    for metric_name, metric_value in metrics.items():
+        if isinstance(metric_value, float):
+            logger.info(f"{metric_name}: {metric_value:.4f}")
+        else:
+            logger.info(f"{metric_name}: {metric_value}")
 
 
 if __name__ == "__main__":
@@ -155,6 +204,4 @@ if __name__ == "__main__":
         print("Usage: python main.py <experiment_config.yaml>")
         sys.exit(1)
 
-    config_path = sys.argv[1]
-
-    main(config_path)
+    main(sys.argv[1])

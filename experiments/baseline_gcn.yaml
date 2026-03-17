@@ -1,14 +1,14 @@
 experiment_name: baseline_gcn
 
-dataset: cora
 model: gcn
-dataset: cora
+dataset: enzymes
 
 hidden_dim: 64
-num_layers: 4
-epochs: 200
+num_layers: 2
+epochs: 400
 lr: 0.01
 weight_decay: 0.0005
+batch_size: 32
 
 rewiring: none
 

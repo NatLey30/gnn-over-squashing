@@ -243,7 +243,9 @@ def _deduplicate_edges(edge_index: torch.Tensor) -> torch.Tensor:
     # then use torch.unique to deduplicate.
     num_nodes: int = int(edge_index.max().item()) + 1
     edge_codes = edge_index[0] * num_nodes + edge_index[1]
-    unique_codes, _ = torch.unique(edge_codes, sorted=False, return_inverse=False)
+    unique_codes = torch.unique(edge_codes, sorted=False, return_inverse=False)
+    print(len(unique_codes))
+    print(unique_codes)
 
     src = unique_codes // num_nodes
     dst = unique_codes % num_nodes
