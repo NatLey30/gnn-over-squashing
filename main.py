@@ -10,7 +10,8 @@ from src.utils.logging import get_logger
 from src.utils.plotting import plot_training
 
 from src.experiments.cora import run_experiment as run_cora
-from src.experiments.enzymes import run_experiment as run_enzymes
+# from src.experiments.enzymes import run_experiment as run_enzymes
+from src.experiments.mutag import run_experiment as run_mutag
 
 
 def get_layers_dir(config: Dict[str, Any]) -> str:
@@ -145,8 +146,11 @@ def run_dataset_experiment(
     if dataset_name == "cora":
         return run_cora(config, logger, device)
 
-    if dataset_name == "enzymes":
-        return run_enzymes(config, logger, device)
+    # if dataset_name == "enzymes":
+    #     return run_enzymes(config, logger, device)
+
+    if dataset_name == "mutag":
+        return run_mutag(config, logger, device)
 
     raise ValueError(f"Unsupported dataset: {dataset_name}")
 

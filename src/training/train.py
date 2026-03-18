@@ -2,7 +2,7 @@ import torch.nn.functional as F
 from tqdm import tqdm
 
 
-def train_cora(model, data, optimizer, epochs=200):
+def train_node_classification(model, data, optimizer, device, epochs=200):
 
     history = {
         "train_loss": [],
@@ -34,7 +34,7 @@ def train_cora(model, data, optimizer, epochs=200):
     return history
 
 
-def train_enzymes(model, loader, optimizer, device, epochs=200):
+def train_graph_classification(model, loader, optimizer, device, epochs=200):
 
     history = {
         "train_loss": [],

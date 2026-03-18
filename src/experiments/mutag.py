@@ -17,8 +17,8 @@ import torch
 from torch.utils.data import random_split
 from torch_geometric.loader import DataLoader
 
-from src.data import load_enzymes
-from src.models import graph_classification
+from src.data import load_mutag
+from src.models.graph_classification import GCN, GraphSAGE, GAT
 from src.rewiring.virtual_nodes import add_virtual_node
 from src.rewiring.ricci_curvature_rewiring import curvature_rewire
 from src.training.train import train_graph_classification
@@ -39,13 +39,13 @@ def build_model(
     model_name = config["model"].lower()
 
     if model_name == "gcn":
-        return graph_classification.GCN(in_dim, hidden, num_classes, num_layers)
+        return GCN(in_dim, hidden, num_classes, num_layers)
 
     if model_name == "graphsage":
-        return graph_classification.GraphSAGE(in_dim, hidden, num_classes, num_layers)
+        return GraphSAGE(in_dim, hidden, num_classes, num_layers)
 
     if model_name == "gat":
-        return graph_classification.GAT(in_dim, hidden, num_classes, num_layers)
+        return GAT(in_dim, hidden, num_classes, num_layers)
 
     raise ValueError(f"Unknown model: {model_name}")
 
@@ -82,12 +82,12 @@ def run_experiment(
     device: torch.device
 ) -> Tuple[Dict[str, list], Dict[str, float]]:
     """
-    Run the full ENZYMES experiment.
+    Run the full MUTAG experiment.
     """
 
-    logger.info("Loading dataset: ENZYMES")
+    logger.info("Loading dataset: MUTAG")
 
-    dataset, in_dim, num_classes = load_enzymes()
+    dataset, in_dim, num_classes = load_mutag()
     dataset = apply_rewiring(config, dataset, logger)
 
     num_graphs = len(dataset)

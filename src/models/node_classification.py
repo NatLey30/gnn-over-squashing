@@ -47,6 +47,7 @@ class GCN(torch.nn.Module):
         for conv in self.convs[:-1]:
             x = conv(x, edge_index)
             x = F.relu(x)
+            x = F.dropout(x, p=0.3, training=self.training)
 
         x = self.convs[-1](x, edge_index)
 
@@ -84,6 +85,7 @@ class GraphSAGE(torch.nn.Module):
         for conv in self.convs[:-1]:
             x = conv(x, edge_index)
             x = F.relu(x)
+            x = F.dropout(x, p=0.3, training=self.training)
 
         x = self.convs[-1](x, edge_index)
 
@@ -124,6 +126,7 @@ class GAT(torch.nn.Module):
         for conv in self.convs[:-1]:
             x = conv(x, edge_index)
             x = F.elu(x)
+            x = F.dropout(x, p=0.3, training=self.training)
 
         x = self.convs[-1](x, edge_index)
 

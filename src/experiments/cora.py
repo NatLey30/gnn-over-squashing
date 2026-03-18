@@ -20,8 +20,8 @@ from src.data import load_cora
 from src.models import node_classification
 from src.rewiring.virtual_nodes import add_virtual_node
 from src.rewiring.ricci_curvature_rewiring import curvature_rewire
-from src.training.train import train_cora
-from src.training.evaluate import evaluate_cora
+from src.training.train import train_node_classification
+from src.training.evaluate import evaluate_node_classification
 
 
 def build_model(
@@ -144,7 +144,7 @@ def run_experiment(
 
     logger.info("Starting training")
 
-    history = train_cora(
+    history = train_node_classification(
         model=model,
         data=data,
         optimizer=optimizer,
@@ -153,7 +153,7 @@ def run_experiment(
 
     logger.info("Evaluating model")
 
-    acc = evaluate_cora(model, data)
+    acc = evaluate_node_classification(model, data)
 
     metrics = {"test_accuracy": acc}
 

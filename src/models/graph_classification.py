@@ -59,6 +59,7 @@ class GCN(torch.nn.Module):
         for conv in self.convs:
             x = conv(x, edge_index)
             x = F.relu(x)
+            x = F.dropout(x, p=0.5, training=self.training)
 
         x = global_mean_pool(x, batch)
 
@@ -100,6 +101,7 @@ class GraphSAGE(torch.nn.Module):
         for conv in self.convs:
             x = conv(x, edge_index)
             x = F.relu(x)
+            x = F.dropout(x, p=0.5, training=self.training)
 
         x = global_mean_pool(x, batch)
 
@@ -144,6 +146,7 @@ class GAT(torch.nn.Module):
         for conv in self.convs:
             x = conv(x, edge_index)
             x = F.elu(x)
+            x = F.dropout(x, p=0.5, training=self.training)
 
         x = global_mean_pool(x, batch)
 

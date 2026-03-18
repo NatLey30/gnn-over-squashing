@@ -2,7 +2,7 @@ import torch
 from src.utils.metrics import accuracy
 
 
-def evaluate_cora(model, data):
+def evaluate_node_classification(model, data):
 
     model.eval()
 
@@ -14,7 +14,7 @@ def evaluate_cora(model, data):
     return acc
 
 
-def evaluate_enzymes(model, loader, device):
+def evaluate_graph_classification(model, loader, device):
 
     model.eval()
 

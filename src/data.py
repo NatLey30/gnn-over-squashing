@@ -24,6 +24,26 @@ def load_cora(root: str = "data"):
     return data, dataset.num_features, dataset.num_classes
 
 
+def load_mutag(root: str = "data"):
+    """
+    Load the ENZYMES graph classification dataset.
+
+    Unlike Cora, ENZYMES contains many small graphs.
+
+    Returns
+    -------
+    dataset : TUDataset
+    num_features : int
+    num_classes : int
+    """
+    dataset = TUDataset(
+        root=root,
+        name="MUTAG"
+    )
+
+    return dataset, dataset.num_features, dataset.num_classes
+
+
 def load_enzymes(root: str = "data"):
     """
     Load the ENZYMES graph classification dataset.
