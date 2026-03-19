@@ -9,9 +9,7 @@ from src.utils.seed import set_seed
 from src.utils.logging import get_logger
 from src.utils.plotting import plot_training
 
-from src.experiments.cora import run_experiment as run_cora
-# from src.experiments.enzymes import run_experiment as run_enzymes
-from src.experiments.mutag import run_experiment as run_mutag
+from src.experiments import graph_classification, node_classification
 
 
 def get_layers_dir(config: Dict[str, Any]) -> str:
@@ -143,14 +141,11 @@ def run_dataset_experiment(
         Training history and evaluation metrics.
     """
 
-    if dataset_name == "cora":
-        return run_cora(config, logger, device)
+    if dataset_name in ["cora"]:
+        return node_classification.run_experiment(config, logger, device, dataset_name)
 
-    # if dataset_name == "enzymes":
-    #     return run_enzymes(config, logger, device)
-
-    if dataset_name == "mutag":
-        return run_mutag(config, logger, device)
+    if dataset_name.lower() in ["collab", "dd", "enzymes", "mutag", "proteins"]:
+        return graph_classification.run_experiment(config, logger, device, dataset_name)
 
     raise ValueError(f"Unsupported dataset: {dataset_name}")
 

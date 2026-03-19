@@ -15,6 +15,7 @@ class GCN(torch.nn.Module):
         hidden_channels: int,
         out_channels: int,
         num_layers: int,
+        dropout: float,
     ) -> None:
         super().__init__()
 
@@ -26,6 +27,8 @@ class GCN(torch.nn.Module):
             self.convs.append(GCNConv(hidden_channels, hidden_channels))
 
         self.convs.append(GCNConv(hidden_channels, out_channels))
+
+        self.dropout = dropout
 
     def forward(self, x: Tensor, edge_index: Tensor) -> Tensor:
         """
@@ -47,7 +50,7 @@ class GCN(torch.nn.Module):
         for conv in self.convs[:-1]:
             x = conv(x, edge_index)
             x = F.relu(x)
-            x = F.dropout(x, p=0.3, training=self.training)
+            x = F.dropout(x, p=self.dropout, training=self.training)
 
         x = self.convs[-1](x, edge_index)
 
@@ -65,6 +68,7 @@ class GraphSAGE(torch.nn.Module):
         hidden_channels: int,
         out_channels: int,
         num_layers: int,
+        dropout: float,
     ) -> None:
         super().__init__()
 
@@ -77,6 +81,8 @@ class GraphSAGE(torch.nn.Module):
 
         self.convs.append(SAGEConv(hidden_channels, out_channels))
 
+        self.dropout = dropout
+
     def forward(self, x: Tensor, edge_index: Tensor) -> Tensor:
         """
         Forward pass returning node logits.
@@ -85,7 +91,7 @@ class GraphSAGE(torch.nn.Module):
         for conv in self.convs[:-1]:
             x = conv(x, edge_index)
             x = F.relu(x)
-            x = F.dropout(x, p=0.3, training=self.training)
+            x = F.dropout(x, p=self.dropout, training=self.training)
 
         x = self.convs[-1](x, edge_index)
 
@@ -103,6 +109,7 @@ class GAT(torch.nn.Module):
         hidden_channels: int,
         out_channels: int,
         num_layers: int,
+        dropout: float,
         heads: int = 8,
     ) -> None:
         super().__init__()
@@ -118,6 +125,8 @@ class GAT(torch.nn.Module):
 
         self.convs.append(GATConv(hidden_channels * heads, out_channels, heads=1))
 
+        self.dropout = dropout
+
     def forward(self, x: Tensor, edge_index: Tensor) -> Tensor:
         """
         Forward pass returning node logits.
@@ -126,7 +135,7 @@ class GAT(torch.nn.Module):
         for conv in self.convs[:-1]:
             x = conv(x, edge_index)
             x = F.elu(x)
-            x = F.dropout(x, p=0.3, training=self.training)
+            x = F.dropout(x, p=self.dropout, training=self.training)
 
         x = self.convs[-1](x, edge_index)
 

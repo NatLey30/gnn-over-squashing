@@ -191,7 +191,7 @@ def curvature_rewire(data: Data, k: int = 50) -> Data:
     # 5. Add the shortcut edges to the NetworkX graph, then convert back
     #    to a PyG Data object and restore node features / masks.
     # ------------------------------------------------------------------
-    curved_graph.add_edges_from(new_edges)
+    curved_graph.add_edges_from(new_edges)  ## habra que ver en proteins como se hace
 
     # Build the new edge_index from the augmented NetworkX graph.
     # We reconstruct both directions for each undirected edge.

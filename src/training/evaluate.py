@@ -1,15 +1,17 @@
 import torch
-from src.utils.metrics import accuracy
+from src.utils.training import accuracy, get_masks
 
 
-def evaluate_node_classification(model, data):
+def evaluate_node_classification(model, data, split=0):
 
     model.eval()
+
+    _, _, test_mask = get_masks(data, split)
 
     with torch.no_grad():
         out = model(data.x, data.edge_index)
 
-    acc = accuracy(out[data.test_mask], data.y[data.test_mask])
+    acc = accuracy(out[test_mask], data.y[test_mask])
 
     return acc
 

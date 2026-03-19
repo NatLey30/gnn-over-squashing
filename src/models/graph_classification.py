@@ -20,6 +20,7 @@ class GCN(torch.nn.Module):
         hidden_channels: int,
         out_channels: int,
         num_layers: int,
+        dropout: float,
     ) -> None:
         super().__init__()
 
@@ -32,34 +33,19 @@ class GCN(torch.nn.Module):
 
         self.lin = torch.nn.Linear(hidden_channels, out_channels)
 
+        self.dropout = dropout
+
     def forward(
         self,
         x: Tensor,
         edge_index: Tensor,
         batch: Tensor,
     ) -> Tensor:
-        """
-        Forward pass producing graph-level logits.
-
-        Parameters
-        ----------
-        x : Tensor
-            Node features
-        edge_index : Tensor
-            Graph connectivity
-        batch : Tensor
-            Batch assignment vector
-
-        Returns
-        -------
-        Tensor
-            Graph logits [num_graphs, num_classes]
-        """
 
         for conv in self.convs:
             x = conv(x, edge_index)
             x = F.relu(x)
-            x = F.dropout(x, p=0.5, training=self.training)
+            x = F.dropout(x, p=self.dropout, training=self.training)
 
         x = global_mean_pool(x, batch)
 
@@ -79,6 +65,7 @@ class GraphSAGE(torch.nn.Module):
         hidden_channels: int,
         out_channels: int,
         num_layers: int,
+        dropout: float,
     ) -> None:
         super().__init__()
 
@@ -91,6 +78,8 @@ class GraphSAGE(torch.nn.Module):
 
         self.lin = torch.nn.Linear(hidden_channels, out_channels)
 
+        self.dropout = dropout
+
     def forward(
         self,
         x: Tensor,
@@ -101,7 +90,7 @@ class GraphSAGE(torch.nn.Module):
         for conv in self.convs:
             x = conv(x, edge_index)
             x = F.relu(x)
-            x = F.dropout(x, p=0.5, training=self.training)
+            x = F.dropout(x, p=self.dropout, training=self.training)
 
         x = global_mean_pool(x, batch)
 
@@ -121,6 +110,7 @@ class GAT(torch.nn.Module):
         hidden_channels: int,
         out_channels: int,
         num_layers: int,
+        dropout: float,
         heads: int = 8,
     ) -> None:
         super().__init__()
@@ -136,6 +126,8 @@ class GAT(torch.nn.Module):
 
         self.lin = torch.nn.Linear(hidden_channels * heads, out_channels)
 
+        self.dropout = dropout
+
     def forward(
         self,
         x: Tensor,
@@ -146,7 +138,7 @@ class GAT(torch.nn.Module):
         for conv in self.convs:
             x = conv(x, edge_index)
             x = F.elu(x)
-            x = F.dropout(x, p=0.5, training=self.training)
+            x = F.dropout(x, p=self.dropout, training=self.training)
 
         x = global_mean_pool(x, batch)
 

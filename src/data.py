@@ -1,17 +1,23 @@
-from torch_geometric.datasets import Planetoid, TUDataset
+from torch_geometric.datasets import Planetoid, TUDataset, WikipediaNetwork
 import torch_geometric.transforms as T
+
+
+def load_chamaleon(root: str = "data"):
+    """
+    Load the chamaleon node classification dataset.
+    """
+    dataset = WikipediaNetwork(
+        root=root,
+        name="chamaleon",
+        transform=T.NormalizeFeatures()
+    )
+
+    return dataset, dataset.num_features, dataset.num_classes
 
 
 def load_cora(root: str = "data"):
     """
-    Load the Cora citation network.
-
-    Returns
-    -------
-    data : Data
-        PyG graph object
-    num_features : int
-    num_classes : int
+    Load the Cora node classification dataset.
     """
     dataset = Planetoid(
         root=root,
@@ -24,17 +30,33 @@ def load_cora(root: str = "data"):
     return data, dataset.num_features, dataset.num_classes
 
 
-def load_mutag(root: str = "data"):
+def load_dd(root: str = "data"):
+    """
+    Load the DD graph classification dataset.
+    """
+    dataset = TUDataset(
+        root=root,
+        name="DD"
+    )
+
+    return dataset, dataset.num_features, dataset.num_classes
+
+
+def load_enzymes(root: str = "data"):
     """
     Load the ENZYMES graph classification dataset.
+    """
+    dataset = TUDataset(
+        root=root,
+        name="ENZYMES"
+    )
 
-    Unlike Cora, ENZYMES contains many small graphs.
+    return dataset, dataset.num_features, dataset.num_classes
 
-    Returns
-    -------
-    dataset : TUDataset
-    num_features : int
-    num_classes : int
+
+def load_mutag(root: str = "data"):
+    """
+    Load the MUTAG graph classification dataset.
     """
     dataset = TUDataset(
         root=root,
@@ -44,21 +66,13 @@ def load_mutag(root: str = "data"):
     return dataset, dataset.num_features, dataset.num_classes
 
 
-def load_enzymes(root: str = "data"):
+def load_proteins(root: str = "data"):
     """
-    Load the ENZYMES graph classification dataset.
-
-    Unlike Cora, ENZYMES contains many small graphs.
-
-    Returns
-    -------
-    dataset : TUDataset
-    num_features : int
-    num_classes : int
+    Load the PROTEINS graph classification dataset.
     """
     dataset = TUDataset(
         root=root,
-        name="ENZYMES"
+        name="PROTEINS"
     )
 
     return dataset, dataset.num_features, dataset.num_classes
