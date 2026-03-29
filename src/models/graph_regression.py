@@ -11,7 +11,7 @@ from torch_geometric.nn import (
 
 class GCN(torch.nn.Module):
     """
-    Graph Convolutional Network for graph classification.
+    Graph Convolutional Network for graph regresssion.
     """
 
     def __init__(
@@ -21,13 +21,15 @@ class GCN(torch.nn.Module):
         out_channels: int,
         num_layers: int,
         dropout: float,
+        use_embedding: bool = False,
+        num_atom_types: int = 100,
     ) -> None:
         super().__init__()
 
         self.convs = torch.nn.ModuleList()
 
-        if in_channels == 1:
-            self.embedding = torch.nn.Embedding(28, hidden_channels)
+        if use_embedding:
+            self.embedding = torch.nn.Embedding(num_atom_types, hidden_channels)
             first_in = hidden_channels
         else:
             self.embedding = None
@@ -38,11 +40,7 @@ class GCN(torch.nn.Module):
         for _ in range(num_layers - 1):
             self.convs.append(GCNConv(hidden_channels, hidden_channels))
 
-        self.lin = torch.nn.Sequential(
-            torch.nn.Linear(hidden_channels, hidden_channels),
-            torch.nn.ReLU(),
-            torch.nn.Linear(hidden_channels, out_channels)
-        )
+        self.lin = torch.nn.Linear(hidden_channels, out_channels)
 
         self.dropout = dropout
 
@@ -53,8 +51,9 @@ class GCN(torch.nn.Module):
         batch: Tensor,
     ) -> Tensor:
 
-        if x.dtype == torch.long:
-            x = self.embedding(x.squeeze())
+        if self.embedding is not None:
+            x = x.view(-1)
+            x = self.embedding(x)
 
         for conv in self.convs:
             x = conv(x, edge_index)
@@ -70,7 +69,7 @@ class GCN(torch.nn.Module):
 
 class GraphSAGE(torch.nn.Module):
     """
-    GraphSAGE model for graph classification.
+    GraphSAGE model for graph regresssion.
     """
 
     def __init__(
@@ -80,28 +79,26 @@ class GraphSAGE(torch.nn.Module):
         out_channels: int,
         num_layers: int,
         dropout: float,
+        use_embedding: bool = False,
+        num_atom_types: int = 100,
     ) -> None:
         super().__init__()
 
         self.convs = torch.nn.ModuleList()
 
-        if in_channels == 1:
-            self.embedding = torch.nn.Embedding(28, hidden_channels)
+        if use_embedding:
+            self.embedding = torch.nn.Embedding(num_atom_types, hidden_channels)
             first_in = hidden_channels
         else:
             self.embedding = None
             first_in = in_channels
 
-        self.convs.append(GCNConv(first_in, hidden_channels))
+        self.convs.append(SAGEConv(first_in, hidden_channels))
 
         for _ in range(num_layers - 1):
             self.convs.append(SAGEConv(hidden_channels, hidden_channels))
 
-        self.lin = torch.nn.Sequential(
-            torch.nn.Linear(hidden_channels, hidden_channels),
-            torch.nn.ReLU(),
-            torch.nn.Linear(hidden_channels, out_channels)
-        )
+        self.lin = torch.nn.Linear(hidden_channels, out_channels)
 
         self.dropout = dropout
 
@@ -129,7 +126,7 @@ class GraphSAGE(torch.nn.Module):
 
 class GAT(torch.nn.Module):
     """
-    Graph Attention Network for graph classification.
+    Graph Attention Network for graph regresssion.
     """
 
     def __init__(
@@ -139,20 +136,22 @@ class GAT(torch.nn.Module):
         out_channels: int,
         num_layers: int,
         dropout: float,
+        use_embedding: bool = False,
+        num_atom_types: int = 100,
         heads: int = 8,
     ) -> None:
         super().__init__()
 
         self.convs = torch.nn.ModuleList()
 
-        if in_channels == 1:
-            self.embedding = torch.nn.Embedding(28, hidden_channels)
+        if use_embedding:
+            self.embedding = torch.nn.Embedding(num_atom_types, hidden_channels)
             first_in = hidden_channels
         else:
             self.embedding = None
             first_in = in_channels
 
-        self.convs.append(GCNConv(first_in, hidden_channels))
+        self.convs.append(GATConv(first_in, hidden_channels, heads=heads))
 
         for _ in range(num_layers - 1):
             self.convs.append(

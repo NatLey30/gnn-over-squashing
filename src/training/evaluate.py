@@ -40,7 +40,7 @@ def evaluate_graph_classification(model, loader, device):
     return correct / total
 
 
-def evaluate_graph_regression(model, loader, device, mean, std):
+def evaluate_graph_regression(model, loader, device):
 
     model.eval()
     total_error = 0
@@ -50,10 +50,10 @@ def evaluate_graph_regression(model, loader, device, mean, std):
             data = data.to(device)
 
             out = model(data.x, data.edge_index, data.batch)
-            # y = data.y.view(-1, 1).float()
-            y = (data.y.view(-1, 1).float() - mean) / std
+            # y = data.y.float()
+            y = data.y.float().view(-1, 1) if data.y.dim() == 1 else data.y.float()
 
-            error = F.l1_loss(out, y, reduction="sum")  # MAE total
+            error = F.l1_loss(out, y, reduction="mean")
             total_error += error.item()
 
     mae = total_error / len(loader.dataset)

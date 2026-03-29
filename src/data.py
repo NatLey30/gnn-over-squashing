@@ -1,18 +1,5 @@
-from torch_geometric.datasets import Planetoid, TUDataset, WikipediaNetwork
+from torch_geometric.datasets import Planetoid, TUDataset, ZINC, QM9
 import torch_geometric.transforms as T
-
-
-def load_chamaleon(root: str = "data"):
-    """
-    Load the chamaleon node classification dataset.
-    """
-    dataset = WikipediaNetwork(
-        root=root,
-        name="chamaleon",
-        transform=T.NormalizeFeatures()
-    )
-
-    return dataset, dataset.num_features, dataset.num_classes
 
 
 def load_cora(root: str = "data"):
@@ -76,3 +63,43 @@ def load_proteins(root: str = "data"):
     )
 
     return dataset, dataset.num_features, dataset.num_classes
+
+
+def load_pubmed(root: str = "data"):
+    """
+    Load the PubMed node classification dataset.
+    """
+    dataset = Planetoid(
+        root=root,
+        name="PubMed",
+        transform=T.NormalizeFeatures()
+    )
+
+    data = dataset[0]
+
+    return data, dataset.num_features, dataset.num_classes
+
+
+def load_qm9(root: str = "data"):
+    """
+    Load the QM9 graph regression dataset.
+    """
+    path = root + "/qm9"
+    dataset = QM9(
+        root=path
+    )
+
+    return dataset, dataset.num_features
+
+
+def load_zinc(root: str = "data"):
+    """
+    Load the Zinc graph regression dataset.
+    """
+    path = root + "/zinc"
+    dataset = ZINC(
+        root=path,
+        subset=True
+    )
+
+    return dataset, dataset.num_features

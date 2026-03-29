@@ -149,7 +149,7 @@ def train_graph_classification(model, train_loader, val_loader, optimizer, devic
     return history
 
 
-def train_graph_regression(model, train_loader, val_loader, optimizer, device, mean, std, epochs=200):
+def train_graph_regression(model, train_loader, val_loader, optimizer, device, epochs=200):
 
     history = {
         "train_loss": [],
@@ -173,11 +173,14 @@ def train_graph_regression(model, train_loader, val_loader, optimizer, device, m
             optimizer.zero_grad()
 
             out = model(data.x, data.edge_index, data.batch)
-            # y = data.y.view(-1, 1).float()
-            y = (data.y.view(-1, 1).float() - mean) / std
+            # y = data.y.float()
+            y = data.y.float().view(-1, 1) if data.y.dim() == 1 else data.y.float()
 
             loss = F.mse_loss(out, y)
             train_loss += loss.item()
+
+            loss.backward()
+            optimizer.step()  
 
             mae = F.l1_loss(out, y, reduction="mean")
             train_mae += mae.item()
@@ -197,8 +200,8 @@ def train_graph_regression(model, train_loader, val_loader, optimizer, device, m
                 data = data.to(device)
 
                 out = model(data.x, data.edge_index, data.batch)
-                # y = data.y.view(-1, 1).float()
-                y = (data.y.view(-1, 1).float() - mean) / std
+                # y = data.y.float()
+                y = data.y.float().view(-1, 1) if data.y.dim() == 1 else data.y.float()
 
                 loss = F.mse_loss(out, y)
                 val_loss += loss.item()
