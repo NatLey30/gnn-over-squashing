@@ -16,7 +16,7 @@ from typing import Tuple, Dict, Any
 import torch
 from torch import Tensor
 
-from src.data import load_cora
+from src.data import load_cora, load_pubmed
 from src.models.node_classification import GCN, GraphSAGE, GAT
 from src.rewiring.virtual_nodes import add_virtual_node
 from src.rewiring.ricci_curvature_rewiring import curvature_rewire
@@ -50,15 +50,16 @@ def build_model(
     hidden = config["hidden_dim"]
     num_layers = config["num_layers"]
     model_name = config["model"].lower()
+    dropout = config["dropout"]
 
     if model_name == "gcn":
-        return GCN(in_dim, hidden, num_classes, num_layers)
+        return GCN(in_dim, hidden, num_classes, num_layers, dropout)
 
     if model_name == "graphsage":
-        return GraphSAGE(in_dim, hidden, num_classes, num_layers)
+        return GraphSAGE(in_dim, hidden, num_classes, num_layers, dropout)
 
     if model_name == "gat":
-        return GAT(in_dim, hidden, num_classes, num_layers)
+        return GAT(in_dim, hidden, num_classes, num_layers, dropout)
 
     raise ValueError(f"Unknown model: {model_name}")
 
@@ -133,9 +134,9 @@ def run_experiment(
 
     if dataset_name == "cora":
         data, in_dim, num_classes = load_cora()
-
-    # elif dataset_name == "dd":
-    #     dataset, in_dim, num_classes = load_dd()
+    
+    elif dataset_name == "pubmed":
+        data, in_dim, num_classes = load_pubmed()
 
     else:
         raise ValueError(f"Unsupported dataset: {dataset_name}")
@@ -166,4 +167,4 @@ def run_experiment(
 
     metrics = {"test_accuracy": acc}
 
-    return history, metrics
+    return history, metrics, model

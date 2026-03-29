@@ -1,0 +1,14 @@
+{
+    "experiment": "baseline_gcn",
+    "dataset": "qm9",
+    "model": "gcn",
+    "rewiring": "none",
+    "num_layers": 2,
+    "hidden_dim": 64,
+    "lr": 0.01,
+    "weight_decay": 0.0005,
+    "epochs": 2,
+    "seed": 0,
+    "batch_size": 512,
+    "test_accuracy": 0.3027179313340124
+}

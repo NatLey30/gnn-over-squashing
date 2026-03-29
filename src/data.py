@@ -84,7 +84,7 @@ def load_qm9(root: str = "data"):
     """
     Load the QM9 graph regression dataset.
     """
-    path = root + "/qm9"
+    path = root + "/QM9"
     dataset = QM9(
         root=path
     )

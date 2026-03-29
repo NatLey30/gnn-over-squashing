@@ -17,7 +17,7 @@ import torch
 from torch.utils.data import random_split
 from torch_geometric.loader import DataLoader
 
-from src.data import load_collab, load_dd, load_enzymes, load_mutag, load_proteins
+from src.data import load_dd, load_enzymes, load_mutag, load_proteins
 from src.models.graph_classification import GCN, GraphSAGE, GAT
 from src.rewiring.virtual_nodes import add_virtual_node
 from src.rewiring.ricci_curvature_rewiring import curvature_rewire
@@ -37,15 +37,16 @@ def build_model(
     hidden = config["hidden_dim"]
     num_layers = config["num_layers"]
     model_name = config["model"].lower()
+    dropout = config["dropout"]
 
     if model_name == "gcn":
-        return GCN(in_dim, hidden, num_classes, num_layers)
+        return GCN(in_dim, hidden, num_classes, num_layers, dropout)
 
     if model_name == "graphsage":
-        return GraphSAGE(in_dim, hidden, num_classes, num_layers)
+        return GraphSAGE(in_dim, hidden, num_classes, num_layers, dropout)
 
     if model_name == "gat":
-        return GAT(in_dim, hidden, num_classes, num_layers)
+        return GAT(in_dim, hidden, num_classes, num_layers, dropout)
 
     raise ValueError(f"Unknown model: {model_name}")
 
@@ -88,10 +89,7 @@ def run_experiment(
 
     logger.info(f"Loading dataset: {dataset_name.upper()}")
 
-    if dataset_name == "collab":
-        dataset, in_dim, num_classes = load_collab()
-
-    elif dataset_name == "dd":
+    if dataset_name == "dd":
         dataset, in_dim, num_classes = load_dd()
 
     elif dataset_name == "enzymes":
@@ -110,23 +108,30 @@ def run_experiment(
 
     num_graphs = len(dataset)
     train_size = int(0.8 * num_graphs)
-    test_size = num_graphs - train_size
+    val_size = int(0.1 * num_graphs)
+    test_size = num_graphs - train_size - val_size
 
     split_generator = torch.Generator().manual_seed(config["seed"])
 
-    train_dataset, test_dataset = random_split(
-        dataset,
-        [train_size, test_size],
-        generator=split_generator
-    )
+    batch_size = config.get("batch_size", 128)
 
-    batch_size = config.get("batch_size", 32)
+    train_dataset, val_dataset, test_dataset = random_split(
+                dataset,
+                [train_size, val_size, test_size],
+                generator=split_generator
+            )
 
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,
         shuffle=True,
         generator=torch.Generator().manual_seed(config["seed"])
+    )
+
+    val_loader = DataLoader(
+        val_dataset,
+        batch_size=batch_size,
+        shuffle=False
     )
 
     test_loader = DataLoader(
@@ -147,10 +152,11 @@ def run_experiment(
 
     history = train_graph_classification(
         model=model,
-        loader=train_loader,
+        train_loader=train_loader,
+        val_loader=val_loader,
         optimizer=optimizer,
+        epochs=config["epochs"],
         device=device,
-        epochs=config["epochs"]
     )
 
     logger.info("Evaluating model")
@@ -163,4 +169,4 @@ def run_experiment(
 
     metrics = {"test_accuracy": test_acc}
 
-    return history, metrics
+    return history, metrics, model
