@@ -1,0 +1,8 @@
+{
+    "lr_mean": 0.001,
+    "lr_std": 0.0,
+    "weight_decay_mean": 0.0005,
+    "weight_decay_std": 0.0,
+    "test_accuracy_mean": 0.6974789915966386,
+    "test_accuracy_std": 0.025900899172138555
+}

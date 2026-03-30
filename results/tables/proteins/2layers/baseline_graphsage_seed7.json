@@ -1,0 +1,14 @@
+{
+    "experiment": "baseline_graphsage",
+    "dataset": "proteins",
+    "model": "graphsage",
+    "rewiring": "none",
+    "num_layers": 2,
+    "hidden_dim": 64,
+    "lr": 0.001,
+    "weight_decay": 0.0005,
+    "epochs": 100,
+    "seed": 7,
+    "batch_size": 128,
+    "test_accuracy": 0.7589285714285714
+}

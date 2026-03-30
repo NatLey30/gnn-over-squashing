@@ -1,0 +1,14 @@
+{
+    "experiment": "baseline_graphsage",
+    "dataset": "zinc",
+    "model": "graphsage",
+    "rewiring": "none",
+    "num_layers": 6,
+    "hidden_dim": 64,
+    "lr": 0.01,
+    "weight_decay": 0.0005,
+    "epochs": 30,
+    "seed": 37,
+    "batch_size": 128,
+    "test_accuracy": 0.004961925625801086
+}

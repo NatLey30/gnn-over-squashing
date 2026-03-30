@@ -1,0 +1,12 @@
+dataset: pubmed
+dropout: 0.5
+epochs: 200
+experiment_name: baseline_graphsage
+hidden_dim: 64
+lr: 0.001
+model: graphsage
+num_layers: 4
+rewiring: none
+save_model: false
+seed: 0
+weight_decay: 0.0005

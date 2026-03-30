@@ -7,8 +7,8 @@
     "hidden_dim": 64,
     "lr": 0.001,
     "weight_decay": 0.0005,
-    "epochs": 2,
+    "epochs": 100,
     "seed": 0,
     "batch_size": 128,
-    "test_accuracy": 0.5982142857142857
+    "test_accuracy": 0.6785714285714286
 }

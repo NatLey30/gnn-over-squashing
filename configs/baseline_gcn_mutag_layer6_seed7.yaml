@@ -1,0 +1,13 @@
+batch_size: 128
+dataset: mutag
+dropout: 0.5
+epochs: 100
+experiment_name: baseline_gcn
+hidden_dim: 64
+lr: 0.001
+model: gcn
+num_layers: 6
+rewiring: none
+save_model: false
+seed: 7
+weight_decay: 0.0005

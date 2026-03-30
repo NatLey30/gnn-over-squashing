@@ -1,0 +1,13 @@
+batch_size: 128
+dataset: dd
+dropout: 0.5
+epochs: 100
+experiment_name: baseline_gat
+hidden_dim: 64
+lr: 0.001
+model: gat
+num_layers: 2
+rewiring: none
+save_model: false
+seed: 37
+weight_decay: 0.0005

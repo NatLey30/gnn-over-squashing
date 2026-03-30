@@ -3,6 +3,6 @@
     "lr_std": 0.0,
     "weight_decay_mean": 0.0005,
     "weight_decay_std": 0.0,
-    "test_accuracy_mean": 0.11666666666666667,
-    "test_accuracy_std": 0.0
+    "test_accuracy_mean": 0.275,
+    "test_accuracy_std": 0.05335936864527373
 }
