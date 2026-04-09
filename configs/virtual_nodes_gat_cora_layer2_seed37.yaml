@@ -1,0 +1,12 @@
+dataset: cora
+dropout: 0.5
+epochs: 200
+experiment_name: virtual_nodes_gat
+hidden_dim: 64
+lr: 0.001
+model: gat
+num_layers: 2
+rewiring: virtual_nodes
+save_model: false
+seed: 37
+weight_decay: 0.0005

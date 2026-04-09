@@ -1,0 +1,14 @@
+{
+    "experiment": "virtual_nodes_graphsage",
+    "dataset": "zinc",
+    "model": "graphsage",
+    "rewiring": "virtual_nodes",
+    "num_layers": 8,
+    "hidden_dim": 64,
+    "lr": 0.01,
+    "weight_decay": 0.0005,
+    "epochs": 30,
+    "seed": 42,
+    "batch_size": 128,
+    "test_mae": 0.00525352257490158
+}

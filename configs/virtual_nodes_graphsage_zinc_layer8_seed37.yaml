@@ -1,0 +1,13 @@
+batch_size: 128
+dataset: zinc
+dropout: 0.2
+epochs: 30
+experiment_name: virtual_nodes_graphsage
+hidden_dim: 64
+lr: 0.01
+model: graphsage
+num_layers: 8
+rewiring: virtual_nodes
+save_model: false
+seed: 37
+weight_decay: 0.0005

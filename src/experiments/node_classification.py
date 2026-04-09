@@ -1,5 +1,5 @@
 """
-Experiment pipeline for the Cora node classification task.
+Experiment pipeline for node classification tasks.
 
 This module handles:
 - dataset loading
@@ -8,9 +8,10 @@ This module handles:
 - training
 - evaluation
 
-Cora is a node classification dataset, so models are taken from
-`src.models.node_classification`.
+Supported datasets: CORA, PUBMED.
+Models are taken from `src.models.node_classification`.
 """
+import os
 
 from typing import Tuple, Dict, Any
 import torch
@@ -95,11 +96,37 @@ def apply_rewiring(
 
     if rewiring == "virtual_nodes":
         logger.info("Applying virtual node rewiring")
-        return add_virtual_node(data)
+        return add_virtual_node(data, task="node")
 
     if rewiring == "curvature":
         logger.info("Applying Ricci curvature rewiring")
-        return curvature_rewire(data)
+
+        data_name = config["dataset"]
+
+        log_path = os.path.join(
+            "results",
+            "logging",
+            f"{data_name}.txt"
+        )
+
+        path = os.path.join(
+            "data",
+            "rewired",
+            f"{data_name}.pt"
+        )
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+
+        if os.path.exists(path):
+            logger.info(f"Loading cached rewired dataset from {path}")
+            return torch.load(path, weights_only=False)
+        
+        rewired = curvature_rewire(data, log_path=log_path)
+
+        # guardar
+        torch.save(rewired, path)
+        logger.info(f"Saved rewired dataset to {path}")
+
+        return rewired
 
     raise ValueError(f"Unknown rewiring method: {rewiring}")
 
@@ -109,25 +136,9 @@ def run_experiment(
     logger,
     device: torch.device,
     dataset_name: str,
-) -> Tuple[Dict[str, list], Dict[str, float]]:
+) -> Tuple[Dict[str, list], Dict[str, float], torch.nn.Module]:
     """
-    Run the full Cora experiment.
-
-    Parameters
-    ----------
-    config : dict
-        Experiment configuration.
-    logger : Logger
-        Logger instance.
-    device : torch.device
-        CPU or CUDA device.
-
-    Returns
-    -------
-    history : dict
-        Training history.
-    metrics : dict
-        Evaluation metrics.
+    Run the full experiment.
     """
 
     logger.info(f"Loading dataset: {dataset_name.upper()}")

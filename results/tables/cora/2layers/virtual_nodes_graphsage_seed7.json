@@ -1,0 +1,14 @@
+{
+    "experiment": "virtual_nodes_graphsage",
+    "dataset": "cora",
+    "model": "graphsage",
+    "rewiring": "virtual_nodes",
+    "num_layers": 2,
+    "hidden_dim": 64,
+    "lr": 0.001,
+    "weight_decay": 0.0005,
+    "epochs": 200,
+    "seed": 7,
+    "batch_size": "",
+    "test_accuracy": 0.806
+}

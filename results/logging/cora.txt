@@ -1,0 +1,1 @@
+2026-04-08 08:40:07,356 | INFO | Rewiring complete | nodes=2708 | edges 5278->5805 (+527) | density 0.0014->0.0016 | avg_degree 3.90->4.29

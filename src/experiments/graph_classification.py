@@ -1,5 +1,5 @@
 """
-Experiment pipeline for the ENZYMES graph classification task.
+Experiment pipeline for graph classification tasks.
 
 This module handles:
 - dataset loading
@@ -8,13 +8,18 @@ This module handles:
 - optional graph rewiring
 - model training and evaluation
 
-ENZYMES is a graph classification dataset, so models are taken
-from `src.models.graph_classification`.
+Supported datasets: ENZYMES, MUTAG, PROTEINS, DD.
+Models are taken from `src.models.graph_classification`.
 """
 
-from typing import Tuple, Dict, Any
+import os
+
+import logging
+from typing import Tuple, Dict, Any, List, Union
+
 import torch
 from torch.utils.data import random_split
+from torch_geometric.data import Data, Dataset
 from torch_geometric.loader import DataLoader
 
 from src.data import load_dd, load_enzymes, load_mutag, load_proteins
@@ -28,12 +33,25 @@ from src.training.evaluate import evaluate_graph_classification
 def build_model(
     config: Dict[str, Any],
     in_dim: int,
-    num_classes: int
+    num_classes: int,
 ) -> torch.nn.Module:
-    """
-    Build a graph classification model.
-    """
+    """Build a graph classification model from the experiment config.
 
+    Args:
+        config: Experiment configuration dictionary. Expected keys:
+            - hidden_dim  – hidden layer width.
+            - num_layers  – number of message-passing layers.
+            - model       – one of "gcn", "graphsage", "gat".
+            - dropout     – dropout probability.
+        in_dim: Dimensionality of the input node features.
+        num_classes: Number of target classes.
+
+    Returns:
+        An instantiated, untrained graph classification model.
+
+    Raises:
+        ValueError: If config["model"] is not a recognised architecture.
+    """
     hidden = config["hidden_dim"]
     num_layers = config["num_layers"]
     model_name = config["model"].lower()
@@ -53,13 +71,28 @@ def build_model(
 
 def apply_rewiring(
     config: Dict[str, Any],
-    dataset,
-    logger
-):
-    """
-    Apply graph rewiring to every graph in the dataset.
-    """
+    dataset: Union[Dataset, List[Data]],
+    logger: logging.Logger,
+) -> Union[Dataset, List[Data]]:
+    """Apply an optional graph rewiring strategy to every graph in the dataset.
 
+    The rewiring method is read from config["rewiring"].  When set to
+    "none" (or absent), the dataset is returned unchanged.
+
+    Args:
+        config: Experiment configuration dictionary. Relevant key:
+            - rewiring – one of "none", "virtual_nodes",
+              "curvature" (default: "none").
+        dataset: A PyG Dataset or list of Data objects to rewire.
+        logger: Standard-library logger used for progress messages.
+
+    Returns:
+        The rewired dataset as a list of Data objects, or the original
+        dataset unchanged when no rewiring is requested.
+
+    Raises:
+        ValueError: If config["rewiring"] is not a recognised strategy.
+    """
     rewiring = config.get("rewiring", "none")
 
     if rewiring == "none":
@@ -68,39 +101,89 @@ def apply_rewiring(
 
     if rewiring == "virtual_nodes":
         logger.info("Applying virtual node rewiring")
-        return add_virtual_node(dataset)
+        return [add_virtual_node(data, task="graph") for data in dataset]
 
     if rewiring == "curvature":
         logger.info("Applying Ricci curvature rewiring")
-        return curvature_rewire(dataset)
+
+        data_name = config["dataset"]
+
+        log_path = os.path.join(
+            "results",
+            "logging",
+            f"{data_name}.txt"
+        )
+
+        path = os.path.join(
+            "data",
+            "rewired",
+            f"{data_name}.pt"
+        )
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+
+        if os.path.exists(path):
+            logger.info(f"Loading cached rewired dataset from {path}")
+            return torch.load(path, weights_only=False)
+        
+        rewired = curvature_rewire(dataset, log_path=log_path)
+
+        # guardar
+        torch.save(rewired, path)
+        logger.info(f"Saved rewired dataset to {path}")
+
+        return rewired
 
     raise ValueError(f"Unknown rewiring method: {rewiring}")
 
 
 def run_experiment(
     config: Dict[str, Any],
-    logger,
+    logger: logging.Logger,
     device: torch.device,
     dataset_name: str,
-) -> Tuple[Dict[str, list], Dict[str, float]]:
-    """
-    Run the full MUTAG experiment.
-    """
+) -> Tuple[Dict[str, list], Dict[str, float], torch.nn.Module]:
+    """Run the full graph classification experiment for a given dataset.
 
+    Loads the requested dataset, optionally rewires the graphs, performs an
+    80 / 10 / 10 train / val / test split, trains the model, and evaluates it
+    on the held-out test set.
+
+    Args:
+        config: Experiment configuration dictionary. Expected keys include
+            those consumed by :func:`build_model` and :func:`apply_rewiring`,
+            plus:
+            - seed         – integer random seed for reproducible splits
+              and data-loader shuffling.
+            - batch_size   – mini-batch size (default: 128).
+            - epochs       – number of training epochs.
+            - lr           – Adam learning rate.
+            - weight_decay – Adam weight-decay coefficient.
+        logger: Standard-library logger used for progress messages.
+        device: Torch device ("cpu" or "cuda") on which to train.
+        dataset_name: One of "dd", "enzymes", "mutag",
+            "proteins" (case-insensitive).
+
+    Returns:
+        A three-tuple (history, metrics, model) where:
+        - history  – dictionary of per-epoch training curves (keys depend
+          on :func:`train_graph_classification`).
+        - metrics  – {"test_accuracy": float} with the final test
+          accuracy.
+        - model    – the trained :class:`torch.nn.Module`.
+
+    Raises:
+        ValueError: If dataset_name is not supported.
+    """
     logger.info(f"Loading dataset: {dataset_name.upper()}")
 
     if dataset_name == "dd":
         dataset, in_dim, num_classes = load_dd()
-
     elif dataset_name == "enzymes":
         dataset, in_dim, num_classes = load_enzymes()
-
     elif dataset_name == "mutag":
         dataset, in_dim, num_classes = load_mutag()
-
     elif dataset_name == "proteins":
         dataset, in_dim, num_classes = load_proteins()
-
     else:
         raise ValueError(f"Unsupported dataset: {dataset_name}")
 
@@ -112,40 +195,29 @@ def run_experiment(
     test_size = num_graphs - train_size - val_size
 
     split_generator = torch.Generator().manual_seed(config["seed"])
-
     batch_size = config.get("batch_size", 128)
 
     train_dataset, val_dataset, test_dataset = random_split(
-                dataset,
-                [train_size, val_size, test_size],
-                generator=split_generator
-            )
+        dataset,
+        [train_size, val_size, test_size],
+        generator=split_generator,
+    )
 
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,
         shuffle=True,
-        generator=torch.Generator().manual_seed(config["seed"])
+        generator=torch.Generator().manual_seed(config["seed"]),
     )
-
-    val_loader = DataLoader(
-        val_dataset,
-        batch_size=batch_size,
-        shuffle=False
-    )
-
-    test_loader = DataLoader(
-        test_dataset,
-        batch_size=batch_size,
-        shuffle=False
-    )
+    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
     model = build_model(config, in_dim, num_classes).to(device)
 
     optimizer = torch.optim.Adam(
         model.parameters(),
         lr=config["lr"],
-        weight_decay=config["weight_decay"]
+        weight_decay=config["weight_decay"],
     )
 
     logger.info("Starting training")
@@ -164,9 +236,9 @@ def run_experiment(
     test_acc = evaluate_graph_classification(
         model=model,
         loader=test_loader,
-        device=device
+        device=device,
     )
 
-    metrics = {"test_accuracy": test_acc}
+    metrics: Dict[str, float] = {"test_accuracy": test_acc}
 
     return history, metrics, model

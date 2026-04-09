@@ -1,0 +1,8 @@
+{
+    "lr_mean": 0.01,
+    "lr_std": 0.0,
+    "weight_decay_mean": 0.0005,
+    "weight_decay_std": 0.0,
+    "test_mae_mean": 1.9435996064641214,
+    "test_mae_std": 0.36121761036717576
+}

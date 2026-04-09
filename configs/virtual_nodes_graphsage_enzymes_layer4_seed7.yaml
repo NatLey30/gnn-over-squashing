@@ -1,0 +1,13 @@
+batch_size: 128
+dataset: enzymes
+dropout: 0.5
+epochs: 100
+experiment_name: virtual_nodes_graphsage
+hidden_dim: 64
+lr: 0.001
+model: graphsage
+num_layers: 4
+rewiring: virtual_nodes
+save_model: false
+seed: 7
+weight_decay: 0.0005

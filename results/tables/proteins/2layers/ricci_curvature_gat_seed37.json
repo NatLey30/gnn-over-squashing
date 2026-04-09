@@ -1,0 +1,14 @@
+{
+    "experiment": "ricci_curvature_gat",
+    "dataset": "proteins",
+    "model": "gat",
+    "rewiring": "curvature",
+    "num_layers": 2,
+    "hidden_dim": 64,
+    "lr": 0.001,
+    "weight_decay": 0.0005,
+    "epochs": 100,
+    "seed": 37,
+    "batch_size": 128,
+    "test_accuracy": 0.6875
+}

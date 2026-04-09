@@ -23,15 +23,16 @@ import numpy as np
 import json
 
 
-MODELS = ["gcn", "graphsage", "gat"]
-DATASETS = ["cora", 
-            "pubmed",
-            "enzymes",
-            "mutag",
-            "dd",
-            "proteins",
-            "zinc",
-            "qm9"]
+MODELS = ["gat"]
+# MODELS = ["gcn", "graphsage", "gat"]
+DATASETS = [#"cora", 
+            # "pubmed"]
+            # "enzymes",
+            # "mutag",
+            "dd"]
+            # "proteins"]
+            # "zinc"]
+            # "qm9"]
 LAYERS = [2, 4, 6, 8]
 SEEDS = [0, 7, 37, 42]
 
@@ -39,7 +40,7 @@ BASE_CONFIG = {
     "hidden_dim": 64,
     "lr": 0.01,
     "weight_decay": 0.0005,
-    "rewiring": "none",
+    "rewiring": "curvature",
     "save_model": False,
 }
 
@@ -51,7 +52,7 @@ def build_config(model: str, dataset: str, layers: int) -> dict:
 
     config = BASE_CONFIG.copy()
 
-    config["experiment_name"] = f"baseline_{model}"
+    config["experiment_name"] = f"ricci_curvature_{model}"
     config["model"] = model
     config["dataset"] = dataset
     config["num_layers"] = layers
@@ -75,6 +76,8 @@ def build_config(model: str, dataset: str, layers: int) -> dict:
         config["batch_size"] = 128
         config["epochs"] = 100
         config["dropout"] = 0.5
+
+    # config["epochs"] = 2
 
     return config
 

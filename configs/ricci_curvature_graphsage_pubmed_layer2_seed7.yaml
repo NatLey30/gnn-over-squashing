@@ -1,0 +1,12 @@
+dataset: pubmed
+dropout: 0.5
+epochs: 200
+experiment_name: ricci_curvature_graphsage
+hidden_dim: 64
+lr: 0.001
+model: graphsage
+num_layers: 2
+rewiring: curvature
+save_model: false
+seed: 7
+weight_decay: 0.0005

@@ -1,0 +1,14 @@
+{
+    "experiment": "virtual_nodes_graphsage",
+    "dataset": "qm9",
+    "model": "graphsage",
+    "rewiring": "virtual_nodes",
+    "num_layers": 6,
+    "hidden_dim": 64,
+    "lr": 0.01,
+    "weight_decay": 0.0005,
+    "epochs": 30,
+    "seed": 42,
+    "batch_size": 512,
+    "test_mae": 0.22704804763630676
+}
