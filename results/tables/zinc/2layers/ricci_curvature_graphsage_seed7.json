@@ -1,0 +1,14 @@
+{
+    "experiment": "ricci_curvature_graphsage",
+    "dataset": "zinc",
+    "model": "graphsage",
+    "rewiring": "curvature",
+    "num_layers": 2,
+    "hidden_dim": 64,
+    "lr": 0.01,
+    "weight_decay": 0.0005,
+    "epochs": 30,
+    "seed": 7,
+    "batch_size": 128,
+    "test_mae": 0.005375125825405121
+}
