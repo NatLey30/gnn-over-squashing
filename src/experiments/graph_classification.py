@@ -124,7 +124,7 @@ def apply_rewiring(
         if os.path.exists(path):
             logger.info(f"Loading cached rewired dataset from {path}")
             return torch.load(path, weights_only=False)
-        
+
         rewired = curvature_rewire(dataset, log_path=log_path)
 
         # guardar

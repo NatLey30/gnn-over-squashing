@@ -29,7 +29,6 @@ def plot_training(history, save_path):
         axs[1].set_title("Training MAE")
         axs[1].set_ylabel("MAE")
     axs[1].set_xlabel("Epoch")
-    
 
     plt.tight_layout()
     plt.savefig(save_path)

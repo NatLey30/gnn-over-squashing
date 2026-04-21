@@ -179,7 +179,7 @@ def _rewire_single_graph(
 
     # override k dinámicamente
     k = max(5, int(0.1 * num_edges))
-    
+
     # logger.info(f"[Ricci] num_edges={num_edges}, using k={k}")
 
     # ------------------------------------------------------------------

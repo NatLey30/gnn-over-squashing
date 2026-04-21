@@ -1,6 +1,6 @@
 import torch
 import torch.nn.functional as F
-from src.utils.training import accuracy, get_masks, compute_loss, auc, hits_at_k
+from src.utils.training import accuracy, get_masks
 
 
 def evaluate_node_classification(model, data, split=0):
@@ -59,29 +59,3 @@ def evaluate_graph_regression(model, loader, device):
     mae = total_error / len(loader.dataset)
 
     return mae
-
-
-def evaluate_link_prediction(model, data, split_edge):
-
-    model.eval()
-
-    with torch.no_grad():
-        z = model(data.x, data.edge_index)
-
-        # ===== TEST =====
-        pos_edge_index = split_edge["test"]["edge"].t()
-        neg_edge_index = split_edge["test"]["edge_neg"].t()
-
-        _, test_pred, test_label = compute_loss(
-            z,
-            pos_edge_index,
-            neg_edge_index
-        )
-
-        test_auc = auc(test_pred, test_label)
-        test_hits = hits_at_k(
-                test_pred[:len(pos_edge_index[0])],
-                test_pred[len(pos_edge_index[0]):]
-            )
-
-    return test_auc, test_hits

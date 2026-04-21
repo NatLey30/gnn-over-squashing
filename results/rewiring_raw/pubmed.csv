@@ -1,0 +1,2 @@
+timestamp,nodes,edges_before,edges_after,edges_added,density_before,density_after,degree_before,degree_after,delta_time_sec,edges_ratio,density_delta,degree_delta
+2026-04-08 09:08:45.364,19717,44324,48756,4432,0.0002,0.0003,4.5,4.95,,1.0999909755437234,9.999999999999996e-05,0.4500000000000002

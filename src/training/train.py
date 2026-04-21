@@ -4,9 +4,7 @@ import torch.nn.functional as F
 import copy
 from tqdm import tqdm
 
-from src.utils.training import accuracy, get_masks, compute_loss, auc, hits_at_k
-
-from torch_geometric.utils import negative_sampling
+from src.utils.training import accuracy, get_masks
 
 
 def train_node_classification(model, data, optimizer, epochs=200, split=0, patience=10):
@@ -217,83 +215,5 @@ def train_graph_regression(model, train_loader, val_loader, optimizer, device, e
         history["train_mae"].append(total_train_mae)
         history["val_loss"].append(total_val_loss)
         history["val_mae"].append(total_val_mae)
-
-    return history
-
-
-def train_link_prediction(
-    model,
-    data,
-    split_edge,
-    optimizer,
-    epochs=200
-):
-
-    history = {
-        "train_loss": [],
-        "train_auc": [],
-        "train_hits": [],
-        "val_loss": [],
-        "val_auc": [],
-        "val_hits": [],
-    }
-
-    for epoch in tqdm(range(epochs)):
-
-        # ===== TRAIN =====
-        model.train()
-        optimizer.zero_grad()
-
-        z = model(data.x, data.edge_index)
-
-        pos_edge_index = split_edge["train"]["edge"].t()
-
-        neg_edge_index = negative_sampling(
-            edge_index=data.edge_index,
-            num_nodes=data.num_nodes,
-            num_neg_samples=pos_edge_index.size(1)
-        )
-
-        train_loss, train_pred, train_label = compute_loss(
-            z, pos_edge_index, neg_edge_index
-        )
-
-        train_loss.backward()
-        optimizer.step()
-
-        train_auc = auc(train_pred, train_label)
-
-        train_hits = hits_at_k(
-            train_pred[:len(pos_edge_index[0])],
-            train_pred[len(pos_edge_index[0]):]
-        )
-
-        # ===== VALIDATION =====
-        model.eval()
-        with torch.no_grad():
-
-            z = model(data.x, data.edge_index)
-
-            pos_edge_index = split_edge["valid"]["edge"].t()
-            neg_edge_index = split_edge["valid"]["edge_neg"].t()
-
-            val_loss, val_pred, val_label = compute_loss(
-                z, pos_edge_index, neg_edge_index
-            )
-
-            val_auc = auc(val_pred, val_label)
-
-            val_hits = hits_at_k(
-                val_pred[:len(pos_edge_index[0])],
-                val_pred[len(pos_edge_index[0]):]
-            )
-
-        # ===== LOG =====
-        history["train_loss"].append(train_loss.item())
-        history["train_auc"].append(train_auc)
-        history["train_hits"].append(train_hits)
-        history["val_loss"].append(val_loss.item())
-        history["val_auc"].append(val_auc)
-        history["val_hits"].append(val_hits)
 
     return history
